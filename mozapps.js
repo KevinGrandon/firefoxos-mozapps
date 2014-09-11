@@ -44,7 +44,11 @@
 	Icon.prototype = {
 
 		get name() {
-			return this.descriptor.name;
+			var userLang = document.documentElement.lang;
+			var locales = this.descriptor.locales;
+			var localized = locales && locales[userLang] && locales[userLang].name;
+
+			return localized || this.descriptor.name;
 		},
 
 		get icon() {
