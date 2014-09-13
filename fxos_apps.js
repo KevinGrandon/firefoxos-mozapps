@@ -3,6 +3,9 @@
 	// Hidden manifest roles that we do not show
 	const HIDDEN_ROLES = ['system', 'input', 'homescreen', 'theme'];
 
+	// Default icon size.
+	const DEFAULT_ICON_SIZE = Math.floor(window.innerWidth / 4);
+
 	// List of all application icons.
 	var icons = [];
 
@@ -32,6 +35,14 @@
 	}
 
 	/**
+	 * Checks whether or not the input has a scheme like http://
+	 */
+	function hasScheme(input) {
+		var rscheme = /^(?:[a-z\u00a1-\uffff0-9-+]+)(?::|:\/\/)/i;
+		return !!(rscheme.exec(input) || [])[0];
+  	}
+
+	/**
 	 * Represents a single app icon on the homepage.
 	 */
 	function Icon(app, entryPoint) {
@@ -43,6 +54,8 @@
 
 	Icon.prototype = {
 
+		defaultIcon: '/bower_components/firefoxos-mozapps/default_icon.png',
+
 		get name() {
 			var userLang = document.documentElement.lang;
 			var locales = this.descriptor.locales;
@@ -52,14 +65,7 @@
 		},
 
 		get icon() {
-			var icons = this.descriptor.icons;
-			if (!icons) {
-				return '';
-			}
-
-			for (var i in icons) {
-				return this.app.origin + icons[i];
-			}
+			return this.getIcon(DEFAULT_ICON_SIZE);
 		},
 
 		get descriptor() {
@@ -67,6 +73,45 @@
 				return this.app.manifest.entry_points[this.entryPoint];
 			}
 			return this.app.manifest;
+		},
+
+		/**
+		 * Returns the icon closest to a given size.
+		 */
+		getIcon: function(size) {
+			var choices = this.descriptor.icons;
+			if (!choices) {
+				return this.defaultIcon;
+			}
+
+			// Create a list with the sizes and order it by descending size.
+			var list = Object.keys(choices).map(function(size) {
+				return size;
+			}).sort(function(a, b) {
+				return b - a;
+			});
+
+			var accurateSize = list[0]; // The biggest icon available
+			for (var i = 0; i < length; i++) {
+				var iconSize = list[i];
+
+				if (iconSize < size) {
+					break;
+				}
+
+				accurateSize = iconSize;
+			}
+
+			var icon = choices[accurateSize];
+
+			// Handle relative URLs
+			if (!hasScheme(icon)) {
+				var a = document.createElement('a');
+				a.href = this.app.origin;
+				icon = a.protocol + '//' + a.host + icon;
+			}
+
+			return icon;
 		},
 
 		/**
