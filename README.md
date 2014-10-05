@@ -8,8 +8,14 @@ This is a promise based library which wraps mozApp methods to make app developer
 
 ## Usage
 
+Install the files into your project:
 ```
 bower install KevinGrandon/firefoxos-mozapps
+```
+
+Include the script (if using bower install):
+```
+<script defer src="bower_components/firefoxos-mozapps/fxos_apps.js"></script>
 ```
 
 Getting app icons:
