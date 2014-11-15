@@ -22,5 +22,11 @@ Getting app icons:
 ```
 FxosApps.all().then(icons => {
 	// Do something with icons.
+
+	// Gets the icon image.
+	console.log(icon.icon);
+
+	// Launch the application:
+	// icon.launch();
 });
 ```
