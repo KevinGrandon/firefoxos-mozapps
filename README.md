@@ -30,3 +30,7 @@ FxosApps.all().then(icons => {
 	// icon.launch();
 });
 ```
+
+## Contributing
+
+Run ```gulp``` to build and package everything into the dist/ folder.
