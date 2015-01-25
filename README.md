@@ -15,7 +15,7 @@ bower install KevinGrandon/firefoxos-mozapps
 
 Include the script (if using bower install):
 ```
-<script defer src="bower_components/firefoxos-mozapps/fxos_apps.js"></script>
+<script defer src="bower_components/firefoxos-mozapps/dist/build.standard.js"></script>
 ```
 
 Getting app icons:
