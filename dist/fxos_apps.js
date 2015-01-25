@@ -100,7 +100,7 @@ define(["exports"], function (exports) {
       });
 
       var accurateSize = list[0]; // The biggest icon available
-      for (var i = 0; i < length; i++) {
+      for (var i = 0; i < list.length; i++) {
         var iconSize = list[i];
 
         if (iconSize < size) {
